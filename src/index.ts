@@ -1,5 +1,5 @@
-import add from './add';
+import { map } from './map';
 
-export default function main() {
-  return add(3, 4);
-}
+export {
+  map
+};
