@@ -1,0 +1,6 @@
+*.log
+.envrc
+.tmp/
+lib/
+node_modules/
+typings/
