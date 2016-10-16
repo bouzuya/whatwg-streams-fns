@@ -1,7 +1,7 @@
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import beater from 'beater';
-import { ReadableStream, WritableStream } from 'whatwg-streams';
+import { ReadableStream, WritableStream } from 'whatwg-streams-b';
 import { map } from '../src/map';
 
 const { test } = beater();

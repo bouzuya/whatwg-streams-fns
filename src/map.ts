@@ -1,4 +1,4 @@
-import { TransformStream } from 'whatwg-streams';
+import { TransformStream } from 'whatwg-streams-b';
 
 const map = (f: (i: any) => any): TransformStream => {
   return new TransformStream({
