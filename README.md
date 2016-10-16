@@ -13,7 +13,13 @@ An utility library for [WHATWG Streams][whatwg/streams].
 
 ## License
 
-[MIT](LICENSE)
+### `streams/` and `whatwg-streams/lib/`
+
+[MIT](https://github.com/whatwg/streams/blob/ff1d3c9af8a01f4b03a508281844b72a92b533c7/reference-implementation/LICENSE.md) (Copyright (c) 2013–2015 Streams Standard Reference Implementation Authors)
+
+### Others
+
+[MIT](LICENSE) (bouzuya)
 
 ## Author
 
