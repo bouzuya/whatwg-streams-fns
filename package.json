@@ -44,7 +44,7 @@
   "homepage": "https://github.com/bouzuya/whatwg-streams-fns#readme",
   "keywords": [],
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/bouzuya/whatwg-streams-fns"
@@ -53,9 +53,9 @@
     "build": "npm-run-all -s 'build:ts' 'build:es2015' -p 'copy:*'",
     "build:es2015": "babel --out-dir .tmp/es5/ .tmp/es2015/",
     "build:ts": "tsc",
-    "clean": "rimraf .tmp lib",
-    "copy:dts": "cpx '.tmp/es2015/src/**/*.d.ts' 'lib/'",
-    "copy:js": "cpx '.tmp/es5/src/**/*.js' 'lib/'",
+    "clean": "rimraf .tmp '*.js' '*.d.ts'",
+    "copy:dts": "cpx '.tmp/es2015/src/**/*.d.ts' '.'",
+    "copy:js": "cpx '.tmp/es5/src/**/*.js' '.'",
     "lint": "npm-run-all -p 'lint:*'",
     "lint:ts": "tslint --project tsconfig.json",
     "prepublish": "npm-run-all -s 'clean' -p 'lint' 'build'",
@@ -67,5 +67,5 @@
     "watch:test": "watch --wait 2 'npm test' '.tmp/es5/'",
     "watch:ts": "npm run 'build:ts' -- --watch"
   },
-  "typings": "lib/index.d.ts"
+  "typings": "index.d.ts"
 }
