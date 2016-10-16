@@ -44,6 +44,13 @@
     "typescript": "2.0.3",
     "watch": "0.19.2"
   },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "map.js",
+    "map.d.ts",
+    "whatwg-streams"
+  ],
   "homepage": "https://github.com/bouzuya/whatwg-streams-fns#readme",
   "keywords": [],
   "license": "MIT",
