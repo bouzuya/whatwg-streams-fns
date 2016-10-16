@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/bouzuya/whatwg-streams-fns/issues"
   },
+  "dependencies": {
+    "whatwg-streams": "./whatwg-streams"
+  },
   "devDependencies": {
     "@types/node": "6.0.39",
     "@types/power-assert": "0.0.28",
@@ -50,9 +53,10 @@
     "url": "https://github.com/bouzuya/whatwg-streams-fns"
   },
   "scripts": {
-    "build": "npm-run-all -s 'build:ts' 'build:es2015' -p 'copy:*'",
+    "build": "npm-run-all -s 'build:whatwg-streams' 'build:ts' 'build:es2015' -p 'copy:*'",
     "build:es2015": "babel --out-dir .tmp/es5/ .tmp/es2015/",
     "build:ts": "tsc",
+    "build:whatwg-streams": "cpx './streams/reference-implementation/lib/*' './whatwg-streams/lib/'",
     "clean": "rimraf .tmp '*.js' '*.d.ts'",
     "copy:dts": "cpx '.tmp/es2015/src/**/*.d.ts' '.'",
     "copy:js": "cpx '.tmp/es5/src/**/*.js' '.'",
