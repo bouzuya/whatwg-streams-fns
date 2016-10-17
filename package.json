@@ -49,6 +49,8 @@
     "index.d.ts",
     "filter.js",
     "filter.d.ts",
+    "fold.js",
+    "fold.d.ts",
     "map.js",
     "map.d.ts"
   ],

@@ -20,6 +20,7 @@
     "./src/index.ts",
     "./test/index.ts",
     "./test/filter.ts",
+    "./test/fold.ts",
     "./test/map.ts"
   ]
 }
