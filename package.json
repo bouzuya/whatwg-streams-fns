@@ -50,8 +50,7 @@
     "filter.js",
     "filter.d.ts",
     "map.js",
-    "map.d.ts",
-    "whatwg-streams"
+    "map.d.ts"
   ],
   "homepage": "https://github.com/bouzuya/whatwg-streams-fns#readme",
   "keywords": [],
