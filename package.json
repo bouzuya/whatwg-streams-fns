@@ -51,6 +51,8 @@
     "filter.d.ts",
     "fold.js",
     "fold.d.ts",
+    "fork.js",
+    "fork.d.ts",
     "from.js",
     "from.d.ts",
     "map.js",
