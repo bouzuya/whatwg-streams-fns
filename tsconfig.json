@@ -21,6 +21,7 @@
     "./test/index.ts",
     "./test/filter.ts",
     "./test/fold.ts",
+    "./test/from.ts",
     "./test/map.ts",
     "./test/merge.ts"
   ]

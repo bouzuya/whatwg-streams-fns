@@ -7,6 +7,7 @@ const { test } = beater();
 test('index', () => {
   assert(index.filter);
   assert(index.fold);
+  assert(index.from);
   assert(index.map);
   assert(index.merge);
 });
