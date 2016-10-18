@@ -5,5 +5,8 @@ import * as index from '../src/';
 const { test } = beater();
 
 test('index', () => {
+  assert(index.filter);
+  assert(index.fold);
   assert(index.map);
+  assert(index.merge);
 });
