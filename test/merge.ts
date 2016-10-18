@@ -10,20 +10,23 @@ const { test } = beater();
 
 const category = 'merge > ';
 
+const newRS = <T>(
+  data: ((c: ReadableStreamController<T>) => any)[]
+): ReadableStream<T> => {
+  return new ReadableStream({
+    pull(controller) {
+      return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
+        const f = data.shift();
+        if (typeof f !== 'undefined') f(controller);
+      });
+    }
+  });
+};
+
 test(category + 'merge(rs1, rs2)', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = <T>(data: Function[]): ReadableStream<T> => {
-    return new ReadableStream({
-      pull(controller) {
-        return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
-          const f = data.shift();
-          if (typeof f !== 'undefined') f(controller);
-        });
-      }
-    });
-  };
   const rs1data = [
     (c: ReadableStreamController<number>) => c.enqueue(1),
     (c: ReadableStreamController<number>) => c.enqueue(2),
@@ -36,10 +39,10 @@ test(category + 'merge(rs1, rs2)', () => {
     (c: ReadableStreamController<number>) => c.enqueue(6),
     (c: ReadableStreamController<number>) => c.close()
   ];
-  const rs1 = newRS<number>(rs1data);
-  const rs2 = newRS<number>(rs2data);
+  const rs1 = newRS(rs1data);
+  const rs2 = newRS(rs2data);
   return merge(rs1, rs2)
-    .pipeTo(new WritableStream({ abort, close, write }))
+    .pipeTo(new WritableStream<number>({ abort, close, write }))
     .then(() => {
       assert(write.callCount === 6);
       assert.deepEqual([
@@ -57,16 +60,6 @@ test(category + 'rs1 controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = <T>(data: Function[]): ReadableStream<T> => {
-    return new ReadableStream({
-      pull(controller) {
-        return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
-          const f = data.shift();
-          if (typeof f !== 'undefined') f(controller);
-        });
-      }
-    });
-  };
   const rs1data = [
     (c: ReadableStreamController<number>) => c.enqueue(1),
     (c: ReadableStreamController<number>) => c.error(new Error('ERROR!'))
@@ -77,10 +70,10 @@ test(category + 'rs1 controller.error()', () => {
     (c: ReadableStreamController<number>) => c.enqueue(6),
     (c: ReadableStreamController<number>) => c.close()
   ];
-  const rs1 = newRS<number>(rs1data);
-  const rs2 = newRS<number>(rs2data);
+  const rs1 = newRS(rs1data);
+  const rs2 = newRS(rs2data);
   return merge(rs1, rs2)
-    .pipeTo(new WritableStream({ abort, close, write }))
+    .pipeTo(new WritableStream<number>({ abort, close, write }))
     .catch((error) => {
       assert(error.message === 'ERROR!');
       assert(abort.callCount === 1);
@@ -99,16 +92,6 @@ test(category + 'rs2 controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = <T>(data: Function[]): ReadableStream<T> => {
-    return new ReadableStream({
-      pull(controller) {
-        return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
-          const f = data.shift();
-          if (typeof f !== 'undefined') f(controller);
-        });
-      }
-    });
-  };
   const rs1data = [
     (c: ReadableStreamController<number>) => c.enqueue(1),
     (c: ReadableStreamController<number>) => c.enqueue(2),
@@ -119,10 +102,10 @@ test(category + 'rs2 controller.error()', () => {
     (c: ReadableStreamController<number>) => c.enqueue(4),
     (c: ReadableStreamController<number>) => c.error(new Error('ERROR!'))
   ];
-  const rs1 = newRS<number>(rs1data);
-  const rs2 = newRS<number>(rs2data);
+  const rs1 = newRS(rs1data);
+  const rs2 = newRS(rs2data);
   return merge(rs1, rs2)
-    .pipeTo(new WritableStream({ abort, close, write }))
+    .pipeTo(new WritableStream<number>({ abort, close, write }))
     .catch((error) => {
       assert(error.message === 'ERROR!');
       assert(abort.callCount === 1);

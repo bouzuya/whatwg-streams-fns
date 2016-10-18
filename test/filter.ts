@@ -20,8 +20,8 @@ test(category + 'filter((i) => i % 2 === 0)', () => {
     }
   });
   rs1
-    .pipeThrough(filter<number>((i) => i % 2 === 0))
-    .pipeTo(new WritableStream({ close, write }));
+    .pipeThrough(filter((i: number) => i % 2 === 0))
+    .pipeTo(new WritableStream<number>({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 1);
     assert(write.getCall(0).args[0] === 2);
@@ -41,8 +41,8 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(filter<number>((i) => i % 2 === 0))
-    .pipeTo(new WritableStream({ abort, close, write }));
+    .pipeThrough(filter((i: number) => i % 2 === 0))
+    .pipeTo(new WritableStream<number>({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
     assert(abort.callCount === 1);
@@ -66,8 +66,8 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(filter<number>((i) => i % 2 === 0))
-    .pipeTo(new WritableStream({
+    .pipeThrough(filter((i: number) => i % 2 === 0))
+    .pipeTo(new WritableStream<number>({
       start(controller) {
         controller.error(new Error('ERROR!'));
       },

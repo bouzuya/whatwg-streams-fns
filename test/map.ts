@@ -11,7 +11,7 @@ const category = 'map > ';
 test(category + 'map((i) => i * 2)', () => {
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -19,8 +19,8 @@ test(category + 'map((i) => i * 2)', () => {
     }
   });
   rs1
-    .pipeThrough(map<number, number>((i) => i * 2))
-    .pipeTo(new WritableStream({ close, write }));
+    .pipeThrough(map((i: number) => i * 2))
+    .pipeTo(new WritableStream<number>({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 2);
     assert(write.getCall(0).args[0] === 2);
@@ -33,7 +33,7 @@ test(category + 'rs controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.error(new Error('ERROR!'));
@@ -41,8 +41,8 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(map<number, number>((i) => i * 2))
-    .pipeTo(new WritableStream({ abort, close, write }));
+    .pipeThrough(map((i: number) => i * 2))
+    .pipeTo(new WritableStream<number>({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
     assert(abort.callCount === 1);
@@ -59,7 +59,7 @@ test(category + 'ws controller.error()', () => {
   const close = sinon.spy();
   const write = sinon.spy();
   const cancel = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -67,8 +67,8 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(map<number, number>((i) => i * 2))
-    .pipeTo(new WritableStream({
+    .pipeThrough(map((i: number) => i * 2))
+    .pipeTo(new WritableStream<number>({
       start(controller) {
         controller.error(new Error('ERROR!'));
       },

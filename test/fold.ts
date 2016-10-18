@@ -11,7 +11,7 @@ const category = 'fold > ';
 test(category + 'fold((a, i) => a + i, 3)', () => {
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -20,8 +20,8 @@ test(category + 'fold((a, i) => a + i, 3)', () => {
     }
   });
   rs1
-    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
-    .pipeTo(new WritableStream({ close, write }));
+    .pipeThrough(fold((a: number, i: number) => a + i, 3))
+    .pipeTo(new WritableStream<number>({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 4);
     assert(write.getCall(0).args[0] === 3);
@@ -36,7 +36,7 @@ test(category + 'rs controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.error(new Error('ERROR!'));
@@ -44,8 +44,8 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
-    .pipeTo(new WritableStream({ abort, close, write }));
+    .pipeThrough(fold((a: number, i: number) => a + i, 3))
+    .pipeTo(new WritableStream<number>({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
     assert(abort.callCount === 1);
@@ -63,7 +63,7 @@ test(category + 'ws controller.error()', () => {
   const close = sinon.spy();
   const write = sinon.spy();
   const cancel = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -71,8 +71,8 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
-    .pipeTo(new WritableStream({
+    .pipeThrough(fold((a: number, i: number) => a + i, 3))
+    .pipeTo(new WritableStream<number>({
       start(controller) {
         controller.error(new Error('ERROR!'));
       },
