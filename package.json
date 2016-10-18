@@ -52,7 +52,9 @@
     "fold.js",
     "fold.d.ts",
     "map.js",
-    "map.d.ts"
+    "map.d.ts",
+    "merge.js",
+    "merge.d.ts"
   ],
   "homepage": "https://github.com/bouzuya/whatwg-streams-fns#readme",
   "keywords": [],
