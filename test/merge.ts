@@ -14,7 +14,7 @@ test(category + 'merge(rs1, rs2)', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = (data: Function[]): ReadableStream => {
+  const newRS = <T>(data: Function[]): ReadableStream<T> => {
     return new ReadableStream({
       pull(controller) {
         return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
@@ -25,19 +25,19 @@ test(category + 'merge(rs1, rs2)', () => {
     });
   };
   const rs1data = [
-    (c: ReadableStreamController) => c.enqueue(1),
-    (c: ReadableStreamController) => c.enqueue(2),
-    (c: ReadableStreamController) => c.enqueue(3),
-    (c: ReadableStreamController) => c.close()
+    (c: ReadableStreamController<number>) => c.enqueue(1),
+    (c: ReadableStreamController<number>) => c.enqueue(2),
+    (c: ReadableStreamController<number>) => c.enqueue(3),
+    (c: ReadableStreamController<number>) => c.close()
   ];
   const rs2data = [
-    (c: ReadableStreamController) => c.enqueue(4),
-    (c: ReadableStreamController) => c.enqueue(5),
-    (c: ReadableStreamController) => c.enqueue(6),
-    (c: ReadableStreamController) => c.close()
+    (c: ReadableStreamController<number>) => c.enqueue(4),
+    (c: ReadableStreamController<number>) => c.enqueue(5),
+    (c: ReadableStreamController<number>) => c.enqueue(6),
+    (c: ReadableStreamController<number>) => c.close()
   ];
-  const rs1 = newRS(rs1data);
-  const rs2 = newRS(rs2data);
+  const rs1 = newRS<number>(rs1data);
+  const rs2 = newRS<number>(rs2data);
   return merge(rs1, rs2)
     .pipeTo(new WritableStream({ abort, close, write }))
     .then(() => {
@@ -57,7 +57,7 @@ test(category + 'rs1 controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = (data: Function[]): ReadableStream => {
+  const newRS = <T>(data: Function[]): ReadableStream<T> => {
     return new ReadableStream({
       pull(controller) {
         return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
@@ -68,17 +68,17 @@ test(category + 'rs1 controller.error()', () => {
     });
   };
   const rs1data = [
-    (c: ReadableStreamController) => c.enqueue(1),
-    (c: ReadableStreamController) => c.error(new Error('ERROR!'))
+    (c: ReadableStreamController<number>) => c.enqueue(1),
+    (c: ReadableStreamController<number>) => c.error(new Error('ERROR!'))
   ];
   const rs2data = [
-    (c: ReadableStreamController) => c.enqueue(4),
-    (c: ReadableStreamController) => c.enqueue(5),
-    (c: ReadableStreamController) => c.enqueue(6),
-    (c: ReadableStreamController) => c.close()
+    (c: ReadableStreamController<number>) => c.enqueue(4),
+    (c: ReadableStreamController<number>) => c.enqueue(5),
+    (c: ReadableStreamController<number>) => c.enqueue(6),
+    (c: ReadableStreamController<number>) => c.close()
   ];
-  const rs1 = newRS(rs1data);
-  const rs2 = newRS(rs2data);
+  const rs1 = newRS<number>(rs1data);
+  const rs2 = newRS<number>(rs2data);
   return merge(rs1, rs2)
     .pipeTo(new WritableStream({ abort, close, write }))
     .catch((error) => {
@@ -99,7 +99,7 @@ test(category + 'rs2 controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const newRS = (data: Function[]): ReadableStream => {
+  const newRS = <T>(data: Function[]): ReadableStream<T> => {
     return new ReadableStream({
       pull(controller) {
         return new Promise((resolve) => setTimeout(resolve, 1)).then(() => {
@@ -110,17 +110,17 @@ test(category + 'rs2 controller.error()', () => {
     });
   };
   const rs1data = [
-    (c: ReadableStreamController) => c.enqueue(1),
-    (c: ReadableStreamController) => c.enqueue(2),
-    (c: ReadableStreamController) => c.enqueue(3),
-    (c: ReadableStreamController) => c.close()
+    (c: ReadableStreamController<number>) => c.enqueue(1),
+    (c: ReadableStreamController<number>) => c.enqueue(2),
+    (c: ReadableStreamController<number>) => c.enqueue(3),
+    (c: ReadableStreamController<number>) => c.close()
   ];
   const rs2data = [
-    (c: ReadableStreamController) => c.enqueue(4),
-    (c: ReadableStreamController) => c.error(new Error('ERROR!'))
+    (c: ReadableStreamController<number>) => c.enqueue(4),
+    (c: ReadableStreamController<number>) => c.error(new Error('ERROR!'))
   ];
-  const rs1 = newRS(rs1data);
-  const rs2 = newRS(rs2data);
+  const rs1 = newRS<number>(rs1data);
+  const rs2 = newRS<number>(rs2data);
   return merge(rs1, rs2)
     .pipeTo(new WritableStream({ abort, close, write }))
     .catch((error) => {

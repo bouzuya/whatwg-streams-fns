@@ -1,7 +1,7 @@
 import { TransformStream } from 'whatwg-streams-b';
 
-const map = (f: (i: any) => any): TransformStream => {
-  return new TransformStream({
+const map = <T, U>(f: (i: T) => U): TransformStream<T, U> => {
+  return new TransformStream<T, U>({
     transform(chunk, controller) {
       controller.enqueue(f(chunk));
     }

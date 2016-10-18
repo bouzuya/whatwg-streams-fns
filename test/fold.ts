@@ -20,7 +20,7 @@ test(category + 'fold((a, i) => a + i, 3)', () => {
     }
   });
   rs1
-    .pipeThrough(fold((a, i) => a + i, 3))
+    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
     .pipeTo(new WritableStream({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 4);
@@ -44,7 +44,7 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(fold((a, i) => a + i, 3))
+    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
     .pipeTo(new WritableStream({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
@@ -71,7 +71,7 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(fold((a, i) => a + i, 3))
+    .pipeThrough(fold<number, number>((a, i) => a + i, 3))
     .pipeTo(new WritableStream({
       start(controller) {
         controller.error(new Error('ERROR!'));

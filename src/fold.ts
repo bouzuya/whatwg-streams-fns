@@ -1,8 +1,8 @@
 import { TransformStream } from 'whatwg-streams-b';
 
-const fold = (f: (a: any, i: any) => any, s: any): TransformStream => {
+const fold = <T, U>(f: (a: U, i: T) => U, s: U): TransformStream<T, U> => {
   let acc = s;
-  return new TransformStream({
+  return new TransformStream<T, U>({
     start(controller) {
       controller.enqueue(acc);
     },

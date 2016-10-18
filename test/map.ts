@@ -19,7 +19,7 @@ test(category + 'map((i) => i * 2)', () => {
     }
   });
   rs1
-    .pipeThrough(map((i) => i * 2))
+    .pipeThrough(map<number, number>((i) => i * 2))
     .pipeTo(new WritableStream({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 2);
@@ -41,7 +41,7 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(map((i) => i * 2))
+    .pipeThrough(map<number, number>((i) => i * 2))
     .pipeTo(new WritableStream({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
@@ -67,7 +67,7 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(map((i) => i * 2))
+    .pipeThrough(map<number, number>((i) => i * 2))
     .pipeTo(new WritableStream({
       start(controller) {
         controller.error(new Error('ERROR!'));

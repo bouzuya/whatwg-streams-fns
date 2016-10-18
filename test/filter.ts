@@ -11,7 +11,7 @@ const category = 'filter > ';
 test(category + 'filter((i) => i % 2 === 0)', () => {
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -20,7 +20,7 @@ test(category + 'filter((i) => i % 2 === 0)', () => {
     }
   });
   rs1
-    .pipeThrough(filter((i) => i % 2 === 0))
+    .pipeThrough(filter<number>((i) => i % 2 === 0))
     .pipeTo(new WritableStream({ close, write }));
   return new Promise((resolve) => setTimeout(resolve)).then(() => {
     assert(write.callCount === 1);
@@ -33,7 +33,7 @@ test(category + 'rs controller.error()', () => {
   const abort = sinon.spy();
   const close = sinon.spy();
   const write = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.error(new Error('ERROR!'));
@@ -41,7 +41,7 @@ test(category + 'rs controller.error()', () => {
     }
   });
   rs1
-    .pipeThrough(filter((i) => i % 2 === 0))
+    .pipeThrough(filter<number>((i) => i % 2 === 0))
     .pipeTo(new WritableStream({ abort, close, write }));
   return new Promise((resolve) => setTimeout(resolve)).catch((error) => {
     assert(error.message === 'ERROR!');
@@ -58,7 +58,7 @@ test(category + 'ws controller.error()', () => {
   const close = sinon.spy();
   const write = sinon.spy();
   const cancel = sinon.spy();
-  const rs1 = new ReadableStream({
+  const rs1 = new ReadableStream<number>({
     start(controller) {
       controller.enqueue(1);
       controller.enqueue(2);
@@ -66,7 +66,7 @@ test(category + 'ws controller.error()', () => {
     cancel
   });
   rs1
-    .pipeThrough(filter((i) => i % 2 === 0))
+    .pipeThrough(filter<number>((i) => i % 2 === 0))
     .pipeTo(new WritableStream({
       start(controller) {
         controller.error(new Error('ERROR!'));
