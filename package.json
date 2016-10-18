@@ -22,7 +22,7 @@
     "url": "https://github.com/bouzuya/whatwg-streams-fns/issues"
   },
   "dependencies": {
-    "whatwg-streams-b": "0.1.0"
+    "whatwg-streams-b": "0.1.1"
   },
   "devDependencies": {
     "@types/node": "6.0.39",
